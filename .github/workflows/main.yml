@@ -17,15 +17,15 @@ jobs:
 
       - name: Verify code presence
         run: |
-          echo "Listing contents of fsw directory:"
-          ls -la fsw
+          echo "Listing contents of protos directory:"
+          ls -la protos
           echo "Verifying specific files or directories:"
-          if [ -d "fsw/path/to/specific/directory" ]; then
+          if [ -d "protos/v1/proto" ]; then
             echo "Specific directory exists."
           else
             echo "Specific directory does not exist."
           fi
-          if [ -f "fsw/path/to/specific/file.txt" ]; then
+          if [ -f "protos/v1/proto/haberdasher.proto" ]; then
             echo "Specific file exists."
           else
             echo "Specific file does not exist."
