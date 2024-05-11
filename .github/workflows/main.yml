@@ -64,7 +64,7 @@ jobs:
       - name: Push generated code to your repository
         run: |
           cd generated
-          git remote add origin https://github.com/your-username/your-repository.git
+          git remote add origin https://github.com/yumochi/action-go-proto-codegen.git
           git push -u origin main
         env:
           GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
