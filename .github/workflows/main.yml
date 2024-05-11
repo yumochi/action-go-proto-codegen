@@ -1,0 +1,17 @@
+name: go-data-dict-codegen
+run-name: ${{ github.actor }} generating go structs demo files
+on: [push]
+jobs:
+  generate-go-structs:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out action-go-proto-codegen
+        uses: actions/checkout@v4
+      - name: Check out my demo proto file
+        uses: actions/checkout@v4
+        with:
+          repository: yumochi/twirp-demo
+          path: protos
+          ref: main
+
+      - run: ls protos
