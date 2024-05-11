@@ -61,6 +61,8 @@ jobs:
       - name: Build Go module
         run: |
           cd generated
+          go get google.golang.org/protobuf/reflect/protoreflect
+          go get google.golang.org/protobuf/runtime/protoimpl
           go build ./...
 
       - name: Upload generated code as artifact
