@@ -23,6 +23,7 @@ jobs:
 
       - name: Build Go module
         run: |
+          mkdir generated
           cd generated
           go get google.golang.org/protobuf/reflect/protoreflect
           go get google.golang.org/protobuf/runtime/protoimpl
