@@ -19,11 +19,31 @@ jobs:
           path: protos
           ref: main
 
-      # ... (previous steps remain the same) ...
+      - name: Set up Go
+        uses: actions/setup-go@v4
+        with:
+          go-version: 1.20
+  
+      - name: Install protoc
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y protobuf-compiler
+  
+      - name: Install protoc-gen-go
+        run: go install google.golang.org/protobuf/cmd/protoc-gen-go@latest
+  
+      - name: Generate Go code
+        run: |
+          mkdir -p generated
+          protoc --go_out=./generated --go_opt=paths=source_relative protos/v1/proto/haberdasher.proto
+  
+      - name: Initialize Go module
+        run: |
+          cd generated
+          go mod init github.com/your-username/twirp-demo-go
 
       - name: Build Go module
         run: |
-          mkdir generated
           cd generated
           go get google.golang.org/protobuf/reflect/protoreflect
           go get google.golang.org/protobuf/runtime/protoimpl
