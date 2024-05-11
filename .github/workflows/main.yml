@@ -1,13 +1,17 @@
 name: go-data-dict-codegen
+
 run-name: ${{ github.actor }} generating go structs demo files
-on: 
+
+on:
   workflow_dispatch:
+
 jobs:
   generate-go-structs:
     runs-on: ubuntu-latest
     steps:
       - name: Check out action-go-proto-codegen
         uses: actions/checkout@v4
+
       - name: Check out my demo proto file
         uses: actions/checkout@v4
         with:
@@ -30,3 +34,37 @@ jobs:
           else
             echo "Specific file does not exist."
           fi
+
+      - name: Set up Go
+        uses: actions/setup-go@v4
+        with:
+          go-version: 1.22
+
+      - name: Install protoc
+        run: |
+          apt-get update
+          apt-get install -y protobuf-compiler
+
+      - name: Install protoc-gen-go
+        run: go install google.golang.org/protobuf/cmd/protoc-gen-go@latest
+
+      - name: Generate Go code
+        run: |
+          mkdir -p generated
+          protoc --go_out=./generated --go_opt=paths=source_relative protos/v1/proto/haberdasher.proto
+
+      - name: Initialize Go module
+        run: |
+          cd generated
+          go mod init action-go-proto-codegen
+
+      - name: Build Go module
+        run: |
+          cd generated
+          go build ./...
+
+      - name: Upload generated code as artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: generated-go-code
+          path: generated
